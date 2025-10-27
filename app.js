@@ -11,11 +11,10 @@ function displayProducts() {
 				return response.json();
 			}
 		})
-		.then(
-			(products) =>
-				(document.querySelector('.products-container').innerHTML = products
-					.map(
-						(product) => `
+		.then((products) => {
+			document.querySelector('.products-container').innerHTML = products
+				.map(
+					(product) => `
          <div class="product-card">
 				<img
 					src=${product.imageURL}
@@ -26,12 +25,37 @@ function displayProducts() {
 					<div class="price">${product.price} LEI</div>
 					<div class="buttons">
 						<button class="details-btn">Details</button>
-						<button class="cart-btn">Add to Cart</button>
+						<button data-id=${product.id} class="cart-btn">Add to Cart</button>
 					</div>
 				</div>
 			</div>   
       `
-					)
-					.join(''))
-		);
+				)
+				.join('');
+			const addToCartButtons = document.querySelectorAll('.cart-btn');
+			addToCartButtons.forEach((button) => {
+				button.addEventListener('click', (e) => {
+					const productId = e.target.dataset.id;
+					const product = products.filter(
+						(product) => product.id === productId
+					)[0];
+					console.log(product);
+
+					let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+					if (cart[productId]) {
+						cart[productId].quantity++;
+					} else {
+						cart[productId] = {
+							quantity: 1,
+							price: product.price,
+							image: product.imageURL,
+							name: product.name,
+						};
+					}
+
+					localStorage.setItem('cart', JSON.stringify(cart));
+				});
+			});
+		});
 }
