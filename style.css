@@ -26,7 +26,8 @@ body {
 }
 
 .products-container,
-.admin-container {
+.admin-container,
+.details-container {
 	position: relative;
 	top: 70px;
 }

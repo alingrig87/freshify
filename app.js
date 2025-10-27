@@ -24,7 +24,7 @@ function displayProducts() {
 					<h3>${product.name}</h3>
 					<div class="price">${product.price} LEI</div>
 					<div class="buttons">
-						<button class="details-btn">Details</button>
+						<a href="details.html?id=${product.id}" class="details-btn">Details</a>
 						<button data-id=${product.id} class="cart-btn">Add to Cart</button>
 					</div>
 				</div>
